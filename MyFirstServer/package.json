@@ -19,5 +19,8 @@
   "homepage": "https://github.com/Tranzite/Webbserver1-master#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "mongoose": "^5.10.5"
   }
 }
