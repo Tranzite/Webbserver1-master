@@ -2,6 +2,24 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/myServer', {useNewUrlParser: true});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+
+const personSchema = new mongoose.Schema({
+    name: String,
+    email: String
+  
+  });
+
+const Person = mongoose.model('Student', personSchema);
+
+
 const clientDir = __dirname + "\\client\\"
 
 app.use(express.json())
@@ -22,6 +40,15 @@ app.post('/', (req, res) => {
   console.log(req.body.name)
   console.log(req.body.email)
   res.redirect('/')
+  //save name and email under here
+
+  const Person = mongoose.model('Info', personSchema);
+
+  const user = new Person({name: 'David', email: 'h@hgmail.com'})
+  
+  user.save()
+  
+
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

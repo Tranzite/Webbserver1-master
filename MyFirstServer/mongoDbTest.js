@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/webshop', {useNewUrlParser: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -7,28 +7,42 @@ db.once('open', function() {
   // we're connected!
 });
 
-const kittySchema = new mongoose.Schema({
-    name: String
+const personSchema = new mongoose.Schema({
+    name: String,
+    age: Number
+  
   });
 
-  const Kitten = mongoose.model('Kitten', kittySchema);
-  const silence = new Kitten({ name: 'Silence' });
 
-console.log(silence.name); // 'Silence'
+  personSchema.methods.speak = () => {
+    console.log("Hej");
+    console.log(`My name is ${this.name},`)
 
-// NOTE: methods must be added to the schema before compiling it with mongoose.model()
-kittySchema.methods.speak = function () {
-    const greeting = this.name
-      ? "Meow name is " + this.name
-      : "I don't have a name";
-    console.log(greeting);
+
+    const presentation = this.name
+    ? `My name is ${this.name},`
+    : `We are watching you!`;
+
+    console.log(presentation);
   }
+
+
+  const Person = mongoose.model('Student', personSchema);
+
+  const niklas = new Person({name: 'Niklas', age: 33})
+  const david = new Person({name: 'David', age: 18})
+  const hugo = new Person({name: 'Hugo', age: 17})
+  const rasmus = new Person({name: 'Rasmus', age: 18})
+
+
+  niklas.save()
+  david.save()
+  hugo.save()
+  rasmus.save()
+
+   
   
-  const Kitten = mongoose.model('Kitten', kittySchema);
-
-  const fluffy = new Kitten({ name: 'fluffy' });
-fluffy.speak(); // "Meow name is fluffy"
-
+/*
 fluffy.save(function (err, fluffy) {
     if (err) return console.error(err);
     fluffy.speak();
@@ -39,4 +53,4 @@ fluffy.save(function (err, fluffy) {
     console.log(kittens);
   })
 
-  Kitten.find({ name: /^fluff/ }, callback);
+  Kitten.find({ name: /^fluff/ }, callback); */
