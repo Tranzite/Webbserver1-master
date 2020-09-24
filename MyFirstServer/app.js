@@ -37,17 +37,20 @@ app.get('/nightmare', (req, res) => { //Detta är hur man får en bild att funge
 })
 
 app.post('/', (req, res) => {
+
+
   console.log(req.body.name)
   console.log(req.body.email)
   res.redirect('/')
   //save name and email under here
 
-  const Person = mongoose.model('Info', personSchema);
 
-  const user = new Person({name: 'David', email: 'h@hgmail.com'})
+  const Person = mongoose.model('Info', personSchema);  
+
+  const user = new Person({name: (req.body.name), email:(req.body.email) })
   
   user.save()
-  
+
 
 })
 
